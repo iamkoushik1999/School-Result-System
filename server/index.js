@@ -60,4 +60,4 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5050;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT} on ${process.env.NODE_ENV}`));
