@@ -6,6 +6,8 @@ import { loginSchema } from '../lib/schemas';
 import { Input, Button } from '../components/ui';
 import toast from 'react-hot-toast';
 
+import logoImage from '../assets/book.png';
+
 export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -31,7 +33,11 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="text-5xl mb-3">📚</div>
+          <img
+            src={logoImage}
+            alt="ResultSys Logo"
+            className="w-20 h-20 mx-auto mb-3 object-contain"
+          />
           <h1 className="text-3xl font-bold text-white tracking-tight">ResultSys</h1>
           <p className="text-slate-400 text-sm mt-1">School Result Management System</p>
         </div>

@@ -1,5 +1,6 @@
 import { Navigate, Outlet, NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import logoImage from '../../assets/book.png';
 
 // ─── Route Guards ────────────────────────────────────────
 export const ProtectedRoute = () => {
@@ -45,7 +46,10 @@ export const Layout = () => {
       {/* Sidebar */}
       <aside className="w-64 bg-slate-900 text-white flex flex-col shrink-0">
         <div className="px-6 py-5 border-b border-slate-800">
-          <div className="text-lg font-bold tracking-tight">📚 ResultSys</div>
+          <div className="flex items-center gap-2">
+            <img src={logoImage} alt="Logo" className="w-8 h-8 object-contain" />
+            <div className="text-lg font-bold tracking-tight text-white">ResultSys</div>
+          </div>
           <div className="text-xs text-slate-400 mt-0.5">School Management</div>
         </div>
 
