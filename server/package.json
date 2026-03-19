@@ -22,6 +22,7 @@
     "morgan": "^1.10.1",
     "multer": "^2.1.1",
     "pdfkit": "^0.17.2",
+    "school-result-system": "file:..",
     "streamifier": "^0.1.1"
   },
   "devDependencies": {
