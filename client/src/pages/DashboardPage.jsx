@@ -26,7 +26,7 @@ export default function DashboardPage() {
   const { data: teachers } = useQuery({
     queryKey: ['teachers'],
     queryFn: () => api.get('/teachers').then((r) => r.data),
-    enabled: user?.user?.role !== 'teacher',
+    enabled: user?.role !== 'teacher',
   });
 
   const { data: exams } = useQuery({
@@ -40,16 +40,16 @@ export default function DashboardPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-slate-800">
-          Good day, {user?.user?.name.split(' ')[0]} 👋
+          Good day, {user?.name?.split(' ')[0]} 👋
         </h1>
         <p className="text-slate-500 text-sm mt-1 capitalize">
-          You're signed in as <strong>{user?.user?.role}</strong>
+          You're signed in as <strong>{user?.role}</strong>
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         <Stat label="Total Students" value={students?.length} icon="🎓" color="border-blue-500" />
-        {user?.user?.role !== 'teacher' && (
+        {user?.role !== 'teacher' && (
           <Stat
             label="Total Teachers"
             value={teachers?.length}
@@ -84,7 +84,7 @@ export default function DashboardPage() {
         <Card className="p-5">
           <h3 className="font-semibold text-slate-700 mb-3">Quick Guide</h3>
           <ul className="text-sm text-slate-500 space-y-2">
-            {user?.user?.role === 'principal' && (
+            {user?.role === 'principal' && (
               <>
                 <li>
                   📌 Go to <strong>Teachers</strong> to add staff and create their login accounts
@@ -95,7 +95,7 @@ export default function DashboardPage() {
                 <li>📌 View full class results and export as CSV</li>
               </>
             )}
-            {user?.user?.role === 'admin' && (
+            {user?.role === 'admin' && (
               <>
                 <li>
                   📌 Go to <strong>Exams</strong> to create Mid Term, Finals, etc.
@@ -105,7 +105,7 @@ export default function DashboardPage() {
                 </li>
               </>
             )}
-            {user?.user?.role === 'teacher' && (
+            {user?.role === 'teacher' && (
               <>
                 <li>
                   📌 Use <strong>Marks Entry</strong> to enter student marks

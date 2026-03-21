@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     if (!token) return setLoading(false);
     api
       .get('/auth/me')
-      .then((r) => setUser(r.data))
+      .then((r) => setUser(r.data.user))
       .catch(() => localStorage.removeItem('token'))
       .finally(() => setLoading(false));
   }, []);
@@ -29,7 +29,9 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  return <AuthContext.Provider value={{ user, loading, login, logout }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, loading, login, logout }}>{children}</AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);

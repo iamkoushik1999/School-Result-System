@@ -4,15 +4,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { examSchema } from '../lib/schemas';
 import {
-  Input, Select, Button, Modal, Badge, Card,
-  PageHeader, EmptyState, Spinner, ConfirmDialog,
+  Input,
+  Select,
+  Button,
+  Modal,
+  Badge,
+  Card,
+  PageHeader,
+  EmptyState,
+  Spinner,
+  ConfirmDialog,
 } from '../components/ui';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 
 const ExamForm = ({ defaultValues, onSubmit, isLoading, isEdit }) => {
   const {
-    register, handleSubmit, control,
+    register,
+    handleSubmit,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(examSchema),
@@ -25,15 +35,28 @@ const ExamForm = ({ defaultValues, onSubmit, isLoading, isEdit }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <Input label="Exam Name" placeholder="e.g. Mid Term Exam" {...register('examName')} error={errors.examName?.message} />
+      <Input
+        label="Exam Name"
+        placeholder="e.g. Mid Term Exam"
+        {...register('examName')}
+        error={errors.examName?.message}
+      />
       <div className="grid grid-cols-3 gap-4">
         <Select label="Class" {...register('class')} error={errors.class?.message}>
           <option value="">Select</option>
-          {Array.from({ length: 12 }, (_, i) => i + 1).map((c) => <option key={c} value={c}>{c}</option>)}
+          {Array.from({ length: 12 }, (_, i) => i + 1).map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
         </Select>
         <Select label="Section" {...register('section')} error={errors.section?.message}>
           <option value="">Select</option>
-          {['A', 'B', 'C', 'D', 'E'].map((s) => <option key={s} value={s}>{s}</option>)}
+          {['A', 'B', 'C', 'D', 'E'].map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
         </Select>
         <Input label="Exam Date" type="date" {...register('date')} error={errors.date?.message} />
       </div>
@@ -104,19 +127,31 @@ export default function ExamsPage() {
 
   const createMutation = useMutation({
     mutationFn: (data) => api.post('/exams', data),
-    onSuccess: () => { toast.success('Exam created'); qc.invalidateQueries(['exams']); setModalState({ open: false, exam: null }); },
+    onSuccess: () => {
+      toast.success('Exam created');
+      qc.invalidateQueries(['exams']);
+      setModalState({ open: false, exam: null });
+    },
     onError: (err) => toast.error(err.response?.data?.message || 'Failed to create exam'),
   });
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }) => api.put(`/exams/${id}`, data),
-    onSuccess: () => { toast.success('Exam updated'); qc.invalidateQueries(['exams']); setModalState({ open: false, exam: null }); },
+    onSuccess: () => {
+      toast.success('Exam updated');
+      qc.invalidateQueries(['exams']);
+      setModalState({ open: false, exam: null });
+    },
     onError: (err) => toast.error(err.response?.data?.message || 'Failed to update exam'),
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id) => api.delete(`/exams/${id}`),
-    onSuccess: () => { toast.success('Exam deleted'); qc.invalidateQueries(['exams']); setDeleteTarget(null); },
+    onSuccess: () => {
+      toast.success('Exam deleted');
+      qc.invalidateQueries(['exams']);
+      setDeleteTarget(null);
+    },
   });
 
   const handleSubmit = (data) => {
@@ -131,11 +166,15 @@ export default function ExamsPage() {
       <PageHeader
         title="Exams"
         subtitle={`${exams.length} exam${exams.length !== 1 ? 's' : ''} created`}
-        action={<Button onClick={() => setModalState({ open: true, exam: null })}>+ Create Exam</Button>}
+        action={
+          <Button onClick={() => setModalState({ open: true, exam: null })}>+ Create Exam</Button>
+        }
       />
 
       {exams.length === 0 ? (
-        <Card><EmptyState message="No exams created yet" icon="📋" /></Card>
+        <Card>
+          <EmptyState message="No exams created yet" icon="📋" />
+        </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {exams.map((exam) => (
@@ -144,15 +183,24 @@ export default function ExamsPage() {
                 <div>
                   <h3 className="font-semibold text-slate-800">{exam.examName}</h3>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    {new Date(exam.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    {new Date(exam.date).toLocaleDateString('en-IN', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
+                    })}
                   </p>
                 </div>
-                <Badge color="blue">{exam.class}-{exam.section}</Badge>
+                <Badge color="blue">
+                  {exam.class}-{exam.section}
+                </Badge>
               </div>
 
               <div className="space-y-1 mb-4">
                 {exam.subjects.map((s) => (
-                  <div key={s.name} className="flex items-center justify-between text-xs text-slate-500">
+                  <div
+                    key={s.name}
+                    className="flex items-center justify-between text-xs text-slate-500"
+                  >
                     <span>{s.name}</span>
                     <span className="font-medium text-slate-700">/{s.maxMarks}</span>
                   </div>
@@ -185,6 +233,7 @@ export default function ExamsPage() {
         size="lg"
       >
         <ExamForm
+          key={modalState.exam?._id || 'new'}
           defaultValues={modalState.exam}
           onSubmit={handleSubmit}
           isLoading={createMutation.isPending || updateMutation.isPending}

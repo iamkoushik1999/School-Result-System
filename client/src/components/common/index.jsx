@@ -16,7 +16,7 @@ export const ProtectedRoute = () => {
 
 export const RoleRoute = ({ roles }) => {
   const { user } = useAuth();
-  if (!roles.includes(user?.user?.role)) return <Navigate to="/dashboard" replace />;
+  if (!roles.includes(user?.role)) return <Navigate to="/dashboard" replace />;
   return <Outlet />;
 };
 
@@ -54,7 +54,7 @@ export const Layout = () => {
         </div>
 
         <nav className="flex-1 py-4 overflow-y-auto">
-          {NAV.filter((n) => n.roles.includes(user?.user?.role)).map((item) => (
+          {NAV.filter((n) => n.roles.includes(user?.role)).map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -74,12 +74,12 @@ export const Layout = () => {
 
         <div className="px-5 py-4 border-t border-slate-800">
           <div
-            className={`text-xs px-2 py-0.5 rounded-full inline-block mb-1 capitalize ${roleBadgeColor[user?.user?.role]}`}
+            className={`text-xs px-2 py-0.5 rounded-full inline-block mb-1 capitalize ${roleBadgeColor[user?.role]}`}
           >
-            {user?.user?.role}
+            {user?.role}
           </div>
-          <div className="text-sm font-medium text-white truncate">{user?.user?.name}</div>
-          <div className="text-xs text-slate-500 truncate">{user?.user?.email}</div>
+          <div className="text-sm font-medium text-white truncate">{user?.name}</div>
+          <div className="text-xs text-slate-500 truncate">{user?.email}</div>
           <button
             onClick={logout}
             className="mt-3 text-xs text-slate-400 hover:text-white transition flex items-center gap-1"
